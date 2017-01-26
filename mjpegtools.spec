@@ -5,7 +5,7 @@ Summary:        Tools to manipulate MPEG data
 Group:          Applications/Multimedia
 License:        GPLv2
 URL:            http://mjpeg.sourceforge.net/
-Source0:        http://downloads.sourceforge.net/mjpeg/%{name}-%{version}.tar.gz
+Source0:        https://sourceforge.net/projects/mjpeg/files/mjpegtools/%{version}/%{name}-%{version}.tar.gz
 Patch0:         mjpegtools-2.1.0-sdl-cflags.patch
 Patch1:         mjpegtools-2.1.0-no_format.patch
 Patch2:         mjpegtools-2.1.0-pic.patch
