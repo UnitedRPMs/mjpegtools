@@ -1,6 +1,6 @@
 Name:           mjpegtools
 Version:        2.1.0
-Release:        7%{?dist}
+Release:        8%{?dist}
 Summary:        Tools to manipulate MPEG data
 Group:          Applications/Multimedia
 License:        GPLv2
@@ -189,6 +189,9 @@ rm $RPM_BUILD_ROOT%{_bindir}/mpegtranscode
 
 
 %changelog
+
+* Sat Sep 30 2017 Unitedrpms Project <unitedrpms AT protonmail DOT com> 2.1.0-8  
+- Automatic Mass Rebuild
 
 * Fri Jul 08 2016 David Vásquez <davidjeremias82 AT gmail DOT com> - 2.1.0-7
 - Massive rebuild
