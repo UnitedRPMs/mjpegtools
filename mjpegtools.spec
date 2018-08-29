@@ -10,6 +10,7 @@ Patch0:         mjpegtools-2.1.0-sdl-cflags.patch
 Patch1:         mjpegtools-2.1.0-no_format.patch
 Patch2:         mjpegtools-2.1.0-pic.patch
 
+BuildRequires:  gcc-c++
 BuildRequires:  libjpeg-devel
 BuildRequires:  nasm
 BuildRequires:  libdv-devel
