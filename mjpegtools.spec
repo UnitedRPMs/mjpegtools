@@ -1,3 +1,6 @@
+# 
+%define _legacy_common_support 1
+
 Name:           mjpegtools
 Version:        2.1.0
 Release:        11%{?dist}
