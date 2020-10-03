@@ -1,9 +1,10 @@
 # 
 %define _legacy_common_support 1
+#global _lto_cflags {nil}
 
 Name:           mjpegtools
 Version:        2.1.0
-Release:        11%{?dist}
+Release:        12%{?dist}
 Summary:        Tools to manipulate MPEG data
 Group:          Applications/Multimedia
 License:        GPLv2
@@ -17,7 +18,7 @@ BuildRequires:  gcc-c++
 BuildRequires:  libjpeg-devel
 BuildRequires:  nasm
 BuildRequires:  libdv-devel
-BuildRequires:  SDL-devel >= 1.1.3
+BuildRequires:  SDL-devel 
 BuildRequires:  SDL_gfx-devel
 BuildRequires:  libquicktime-devel >= 0.9.8
 BuildRequires:  libpng-devel
@@ -106,7 +107,7 @@ for building applications that use mjpegtools lavpipe libraries.
 %setup -q
 %patch0 -p1 -b .sdl
 %patch1 -p1 -b .format
-%patch2 -p0 -b .fpic
+#patch2 -p0 -b .fpic
 
 sed -i -e 's/ARCHFLAGS=.*/ARCHFLAGS=/' configure*
 sed -i -e 's|/lib /usr/lib|/%{_lib} %{_libdir}|' configure # lib64 rpaths
@@ -115,13 +116,26 @@ for f in docs/yuvfps.1 ; do
 done
 
 
+
 %build
-%configure --disable-dependency-tracking --disable-static
-make %{?_smp_mflags}
+
+sed -i~ '/currently broken/d' mpeg2enc/mpeg2enc.cc
+diff -u mpeg2enc/mpeg2enc.cc* || :
+autoreconf -vfi
+EXTRAOPTS=""
+
+export CFLAGS="%{optflags} $(pkg-config --cflags SDL_gfx)"
+%configure \
+	--disable-static \
+	--disable-arch_tuning \
+	$EXTRAOPTS \
+	%{nil}
+
+%make_build
 
 
 %install
-make install DESTDIR=$RPM_BUILD_ROOT
+%make_install
 rm -f $RPM_BUILD_ROOT{%{_infodir}/dir,%{_libdir}/lib*.la}
 # too broken/outdated to be useful in 1.[89].0 (and would come with dep chain)
 rm $RPM_BUILD_ROOT%{_bindir}/mpegtranscode
@@ -193,6 +207,9 @@ rm $RPM_BUILD_ROOT%{_bindir}/mpegtranscode
 
 
 %changelog
+
+* Fri Oct 02 2020 Unitedrpms Project <unitedrpms AT protonmail DOT com> 2.1.0-12  
+- Fix for F34
 
 * Sun Oct 07 2018 Unitedrpms Project <unitedrpms AT protonmail DOT com> 2.1.0-11  
 - Automatic Mass Rebuild
