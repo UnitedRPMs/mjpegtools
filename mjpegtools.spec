@@ -3,16 +3,13 @@
 #global _lto_cflags {nil}
 
 Name:           mjpegtools
-Version:        2.1.0
-Release:        12%{?dist}
+Version:        2.2.0
+Release:        7%{?dist}
 Summary:        Tools to manipulate MPEG data
 Group:          Applications/Multimedia
 License:        GPLv2
 URL:            http://mjpeg.sourceforge.net/
-Source0:        https://sourceforge.net/projects/mjpeg/files/mjpegtools/%{version}/%{name}-%{version}.tar.gz
-Patch0:         mjpegtools-2.1.0-sdl-cflags.patch
-Patch1:         mjpegtools-2.1.0-no_format.patch
-Patch2:         mjpegtools-2.1.0-pic.patch
+Source0:        https://sourceforge.net/projects/mjpeg/files/mjpegtools/%{version}/mjpegtools-%{version}.tar.bz2
 
 BuildRequires:  gcc-c++
 BuildRequires:  libjpeg-devel
@@ -23,6 +20,8 @@ BuildRequires:  SDL_gfx-devel
 BuildRequires:  libquicktime-devel >= 0.9.8
 BuildRequires:  libpng-devel
 BuildRequires:  gtk2-devel >= 2.4.0
+BuildRequires:  autoconf
+BuildRequires:  automake
 Requires:       %{name}-libs = %{version}-%{release}
 Requires:       %{name}-lav = %{version}-%{release}
 # mencoder for lav2avi.sh
@@ -105,9 +104,6 @@ for building applications that use mjpegtools lavpipe libraries.
 
 %prep 
 %setup -q
-%patch0 -p1 -b .sdl
-%patch1 -p1 -b .format
-#patch2 -p0 -b .fpic
 
 sed -i -e 's/ARCHFLAGS=.*/ARCHFLAGS=/' configure*
 sed -i -e 's|/lib /usr/lib|/%{_lib} %{_libdir}|' configure # lib64 rpaths
@@ -121,7 +117,7 @@ done
 
 sed -i~ '/currently broken/d' mpeg2enc/mpeg2enc.cc
 diff -u mpeg2enc/mpeg2enc.cc* || :
-autoreconf -vfi
+#autoreconf -vfi
 EXTRAOPTS=""
 
 export CFLAGS="%{optflags} $(pkg-config --cflags SDL_gfx)"
@@ -159,7 +155,7 @@ rm $RPM_BUILD_ROOT%{_bindir}/mpegtranscode
 
 %files
 %defattr(-,root,root,-)
-%doc CHANGES ChangeLog AUTHORS BUGS README.lavpipe NEWS TODO
+%doc CHANGES ChangeLog AUTHORS BUGS README NEWS TODO
 %{_bindir}/*
 %exclude %{_bindir}/glav
 %exclude %{_bindir}/lavplay
@@ -173,7 +169,6 @@ rm $RPM_BUILD_ROOT%{_bindir}/mpegtranscode
 
 %files gui
 %defattr(-,root,root,-)
-%doc README.glav
 %{_bindir}/glav
 # lavplay and yuvplay won't save console util users from X11 and SDL
 # dependencies as long as liblavplay is in -lav, but they're inherently
@@ -207,6 +202,9 @@ rm $RPM_BUILD_ROOT%{_bindir}/mpegtranscode
 
 
 %changelog
+
+* Sat Apr 17 2021 Unitedrpms Project <unitedrpms AT protonmail DOT com> 2.2.0-7  
+- Updated to 2.2.0
 
 * Fri Oct 02 2020 Unitedrpms Project <unitedrpms AT protonmail DOT com> 2.1.0-12  
 - Fix for F34
