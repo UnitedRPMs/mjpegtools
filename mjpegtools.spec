@@ -3,13 +3,13 @@
 #global _lto_cflags {nil}
 
 Name:           mjpegtools
-Version:        2.2.0
+Version:        2.2.1
 Release:        7%{?dist}
 Summary:        Tools to manipulate MPEG data
 Group:          Applications/Multimedia
 License:        GPLv2
 URL:            http://mjpeg.sourceforge.net/
-Source0:        https://sourceforge.net/projects/mjpeg/files/mjpegtools/%{version}/mjpegtools-%{version}.tar.bz2
+Source0:        https://downloads.sourceforge.net/project/mjpeg/mjpegtools/%{version}/mjpegtools-%{version}.tar.gz
 
 BuildRequires:  gcc-c++
 BuildRequires:  libjpeg-devel
@@ -202,6 +202,9 @@ rm $RPM_BUILD_ROOT%{_bindir}/mpegtranscode
 
 
 %changelog
+
+* Thu Sep 09 2021 Unitedrpms Project <unitedrpms AT protonmail DOT com> 2.2.1-7  
+- Updated to 2.2.1
 
 * Sat Apr 17 2021 Unitedrpms Project <unitedrpms AT protonmail DOT com> 2.2.0-7  
 - Updated to 2.2.0
